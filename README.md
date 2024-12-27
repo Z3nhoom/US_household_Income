@@ -188,11 +188,3 @@ The EDA provided valuable insights into the geographic and economic characterist
 
 The exploratory data analysis provided insights into the distribution of household income across different states and cities, the relationship between land types and household income, and highlighted potential data quality issues. This analysis helps in making informed decisions and understanding socioeconomic patterns across the United States.
 
-​
-
-​​​​
-
-Outcome:
-
-
-The data cleaning process ensured that the us_household_income and US_project.us_household_income_statistics datasets were accurate, consistent, and ready for further analysis, contributing to more reliable and insightful data analysis results.
