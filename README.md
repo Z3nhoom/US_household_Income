@@ -1,94 +1,77 @@
 # US_household_Income
 
-Exploratory Data Analysis Project Summary
+**Data Cleaning Project Summary**
+
+​
+
 Project Description:
-This project involved conducting exploratory data analysis (EDA) on the us_household_income and US_project.us_household_income_statistics datasets to uncover insights about household income, land, and water areas across different states and regions in the United States. The analysis included identifying states with the largest land and water areas, examining household income statistics, and exploring the relationships between different types of land and household income.
+
+
+This project involved cleaning and preparing two real-world datasets, us_household_income and us_household_income_statistics to ensure data accuracy and consistency for analysis. The process included identifying and removing duplicates, correcting inconsistent data entries, and filling in missing values.
+
+​
 
 Key Skills Utilized:
 
-SQL Data Querying: Extensively used SQL to select, join, group, and order data to derive meaningful insights.
-Data Aggregation: Applied aggregate functions (SUM, AVG, ROUND, COUNT) to summarize data and calculate averages.
-Data Joining: Combined multiple tables using INNER JOIN to enrich the dataset for deeper analysis.
-Data Filtering: Used WHERE and HAVING clauses to filter data based on specific conditions.
-Data Sorting and Limiting: Ordered data by different columns and limited the number of results for focused analysis.
+​
+
+SQL Data Querying: Used SQL to select, count, and group data to identify duplicates and inconsistencies.
+
+Data Deduplication: Assigned row numbers to duplicates using ROW_NUMBER() OVER(PARTITION BY ...) for easy identification and deletion.
+
+Data Backup: Created backup tables before performing deletion operations to ensure data safety.
+
+Data Standardization: Corrected inconsistent state names and abbreviations using UPDATE statements.
+
+Data Imputation: Filled missing values based on logical predictions from existing data.
+
+Data Validation: Checked for and corrected wrong entries in the dataset, such as zero land areas.
+
+​
+
+​
+
 Detailed Steps:
+
+​
 
 Initial Data Inspection:
 
-Queried both datasets to understand their structure and contents.
-State-wise Land and Water Area Analysis:
+Queried the datasets to inspect the data and count the total number of entries.
 
-Identified states with the largest land and water areas using GROUP BY and ORDER BY clauses.
-Listed top 10 states by land area and water area.
-SQL
-Select State_Name, SUM(Aland), SUM(Awater)
-FROM us_household_income
-GROUP BY State_Name
-ORDER BY SUM(Aland) DESC
-Limit 10;
+Identified duplicates by grouping and counting IDs.
 
-Select State_Name, SUM(Aland), SUM(Awater)
-FROM us_household_income
-GROUP BY State_Name
-ORDER BY SUM(Awater) DESC
-Limit 10;
-Combining and Exploring Data:
+Data Deduplication:
 
-Joined us_household_income and US_project.us_household_income_statistics tables on the id column.
-Filtered out rows where the Mean household income was zero.
-SQL
-SELECT * 
-FROM us_household_income u 
-INNER JOIN US_project.us_household_income_statistics us 
-ON u.id = us.id
-WHERE Mean <> 0;
-State-wise Household Income Analysis:
+Assigned row numbers to duplicates for identification.
 
-Identified states with the lowest and highest average household income.
-Calculated average Mean and Median household income for each state.
-SQL
-SELECT u.State_name, ROUND(AVG(Mean), 1), ROUND(AVG(Median), 1)
-FROM us_household_income u 
-INNER JOIN US_project.us_household_income_statistics us 
-ON u.id = us.id
-WHERE Mean <> 0 
-GROUP BY u.State_name
-ORDER BY AVG(Mean)
-LIMIT 5;
+Deleted duplicates while ensuring a backup was created.
 
-SELECT u.State_name, ROUND(AVG(Mean), 1), ROUND(AVG(Median), 1)
-FROM us_household_income u 
-INNER JOIN US_project.us_household_income_statistics us 
-ON u.id = us.id
-WHERE Mean <> 0 
-GROUP BY u.State_name
-ORDER BY AVG(Mean) DESC
-LIMIT 10;
-Land Type and Household Income Analysis:
+Verified the deletion of duplicates.
 
-Analyzed average household income by land type, considering the count of each type.
-Focused on land types with significant data to ensure meaningful results.
-SQL
-SELECT Type, COUNT(Type), ROUND(AVG(Mean), 1), ROUND(AVG(Median), 1)
-FROM us_household_income u 
-INNER JOIN US_project.us_household_income_statistics us 
-ON u.id = us.id
-WHERE Mean <> 0 
-GROUP BY Type 
-HAVING COUNT(Type) > 100
-ORDER BY AVG(Median)
-LIMIT 20;
-City-wise Household Income Analysis:
+Data Standardization:
 
-Analyzed household income at the city level.
-Identified cities with the highest average household income.
-SQL
-SELECT u.State_Name, City, ROUND(AVG(mean), 1)
-FROM us_household_income u
-JOIN us_household_income_statistics us
-ON u.id = us.id
-GROUP BY u.State_Name, City
-ORDER BY ROUND(AVG(mean), 1) DESC
-LIMIT 20;
+Corrected inconsistent state names (e.g., 'alabama' to 'Alabama', 'georia' to 'Georgia').
+
+Checked and confirmed the correctness of state abbreviations.
+
+Data Imputation:
+
+Identified and filled missing values in the 'Place' column based on logical predictions.
+
+Data Validation:
+
+Checked and corrected the 'Type' column, changing 'Boroughs' to 'Borough'.
+
+Validated land and water area values, ensuring no entries had zero land area.
+
+​
+
+​
+
+​​​​
+
 Outcome:
-The exploratory data analysis provided insights into the distribution of household income across different states and cities, the relationship between land types and household income, and highlighted potential data quality issues. This analysis helps in making informed decisions and understanding socioeconomic patterns across the United States.
+
+
+The data cleaning process ensured that the us_household_income and US_project.us_household_income_statistics datasets were accurate, consistent, and ready for further analysis, contributing to more reliable and insightful data analysis results.
